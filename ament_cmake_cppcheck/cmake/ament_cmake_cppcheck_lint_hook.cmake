@@ -39,6 +39,12 @@ if(_source_files)
     list(APPEND _all_exclude ${ament_cmake_cppcheck_ADDITIONAL_EXCLUDE})
   endif()
 
+  # Language
+  set(_language "")
+  if(DEFINED ament_cmake_cppcheck_ADDITIONAL_LANGUAGE)
+    list(APPEND _language ${ament_cmake_cppcheck_ADDITIONAL_LANGUAGE})
+  endif()
+
   # BUILDSYSTEM_TARGETS only supported in CMake >= 3.7
   if(NOT CMAKE_VERSION VERSION_LESS "3.7.0")
     get_directory_property(_build_targets DIRECTORY ${PROJECT_SOURCE_DIR} BUILDSYSTEM_TARGETS)
@@ -70,6 +76,7 @@ if(_source_files)
   endif()
 
   message(STATUS "Configured cppcheck include dirs: ${_all_include_dirs}")
+  message(STATUS "Configured cppcheck language : ${_language}")
   message(STATUS "Configured cppcheck exclude dirs and/or files: ${_all_exclude}")
-  ament_cppcheck(INCLUDE_DIRS ${_all_include_dirs} EXCLUDE ${_all_exclude})
+  ament_cppcheck(LANGUAGE ${_language} INCLUDE_DIRS ${_all_include_dirs} EXCLUDE ${_all_exclude})
 endif()
